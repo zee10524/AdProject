@@ -1,0 +1,65 @@
+<% layout('layouts/boilerplate') %>
+
+<div class="container mt-5">
+<h2 class="mb-4 text-primary">📅 My Bookings</h2>
+
+<% if (bookings.length > 0) { %>
+
+    <% bookings.forEach(booking => { %>
+    <div class="card shadow-sm mb-3">
+        <div class="card-body">
+
+            <h5><%= booking.listing.title %></h5>
+
+            <p>
+                📍 <%= booking.listing.location %>, <%= booking.listing.country %>
+            </p>
+
+            <p>
+                🗓 <strong>Check In:</strong> 
+                <%= booking.checkIn.toDateString() %>
+            </p>
+
+            <p>
+                🗓 <strong>Check Out:</strong> 
+                <%= booking.checkOut.toDateString() %>
+            </p>
+
+            <p>
+                👥 Guests: <%= booking.guests %>
+            </p>
+
+            <p class="fw-bold text-success">
+                ₹<%= booking.totalPrice %>
+            </p>
+
+            <p>
+                Status: 
+                <span class="<%= booking.status === 'confirmed' ? 'text-success' : 'text-danger' %>">
+                    <%= booking.status %>
+                </span>
+            </p>
+
+            <% if (booking.status === "confirmed") { %>
+            <form method="POST"
+                  action="/bookings/<%= booking._id %>?_method=DELETE"
+                  onsubmit="return confirm('Cancel this booking?');">
+                <button class="btn btn-danger btn-sm">
+                    Cancel Booking
+                </button>
+            </form>
+            <% } %>
+
+        </div>
+    </div>
+    <% }) %>
+
+<% } else { %>
+
+<div class="alert alert-info">
+    You have no bookings yet.
+</div>
+
+<% } %>
+
+</div>
