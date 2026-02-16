@@ -2,20 +2,21 @@ const Listing = require("../models/listing");
 
 // ================= INDEX =================
 module.exports.index = async (req, res) => {
-    if (req.query.q) {
-        const query = req.query.q;
+    // if (req.query.q) {
+    //     const query = req.query.q;
+    //     console.log(query);
+        
+    //     const allListings = await Listing.find({
+    //         $text: { $search: query }
+    //     });
 
-        const allListings = await Listing.find({
-            $text: { $search: query }
-        });
+    //     if (allListings.length === 0) {
+    //         req.flash("error", "No listings found.");
+    //         return res.redirect("/listings");
+    //     }
 
-        if (allListings.length === 0) {
-            req.flash("error", "No listings found.");
-            return res.redirect("/listings");
-        }
-
-        return res.render("listings/index", { allListings });
-    }
+    //     return res.render("listings/index", { allListings });
+    // }
 
     const allListings = await Listing.find({});
     res.render("listings/index", { allListings });

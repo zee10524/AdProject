@@ -40,6 +40,11 @@
                 </span>
             </p>
 
+            <p>
+                🗝️ <strong>Guide:</strong> 
+                 <%= booking.guide ? 'Yes' : 'No' %>
+            </p>
+
             <% if (booking.status === "confirmed") { %>
             <form method="POST"
                   action="/bookings/<%= booking._id %>?_method=DELETE"

@@ -54,7 +54,11 @@ const bookingSchema = new Schema({
         enum: ["pending", "paid", "refunded"],
         default: "pending"
     },
-
+ 
+    guide: {
+        type: Boolean,
+        default: false
+    },
     cancelledAt: {
         type: Date
     }

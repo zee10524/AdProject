@@ -5,7 +5,7 @@ module.exports.createBooking = async (req, res) => {
 
     const { id } = req.params;
 
-    const { checkIn, checkOut, guests } = req.body;
+    const { checkIn, checkOut, guests, guide } = req.body;
 
     const listing = await Listing.findById(id);
 
@@ -54,7 +54,8 @@ module.exports.createBooking = async (req, res) => {
         checkIn: start,
         checkOut: end,
         guests,
-        totalPrice
+        totalPrice,
+        guide
     });
 
     await booking.save();
