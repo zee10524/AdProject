@@ -59,17 +59,23 @@ const listingSchema = new Schema({
         default: 0
     },
 
+    guide: {
+        type: Boolean,
+        default: false
+    },
+
+
     owner: {
         type: Schema.Types.ObjectId,
         ref: "User"
     },
 
     bookings: [
-    {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Booking"
-    }
-],
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Booking"
+        }
+    ],
 
 }, { timestamps: true });
 

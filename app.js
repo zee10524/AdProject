@@ -26,7 +26,7 @@ const bookingRouter = require("./routes/booking");
 const userBookingRouter = require("./routes/userBookings");
 // ================= DATABASE =================
 const MONGO_URL = process.env.MONGO_URI;
-const PORT = 8080;
+const PORT = 8082;
 
 mongoose.connect(MONGO_URL)
     .then(() => console.log("✅ MongoDB Connected"))

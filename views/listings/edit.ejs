@@ -119,6 +119,20 @@
                placeholder="WiFi, AC, Parking">
     </div>
 
+    <!-- ✅ GUIDE CHECKBOX -->
+            <div class="form-check mb-3">
+                <input 
+                    class="form-check-input" 
+                    type="checkbox" 
+                    name="listing[guide]" 
+                    id="guideCheck"
+                    value="true"
+                    <%= listing.guide ? "checked" : "" %>
+                >
+                <label class="form-check-label" for="guideCheck">
+                    GUide Service
+                </label>
+            </div>
     <button class="btn btn-dark w-100 mt-3">
         Update Listing
     </button>
