@@ -1,279 +1,273 @@
 <% layout('layouts/boilerplate') %>
 
-<div class="container mt-5">
-<div class="row justify-content-center">
-<div class="col-lg-8 col-md-10">
+<div class="container py-5">
 
-<!-- ================= HOTEL DETAILS ================= -->
-<h2 class="mb-4 text-center fw-bold text-primary">
-    🏨 Hotel Details
-</h2>
+    <!-- ================= HERO SECTION ================= -->
+    <div class="row mb-5">
 
-<div class="card shadow-lg border-0 mb-4">
-    <img 
-        src="<%= listing.image.url %>" 
-        class="card-img-top"
-        style="height:350px; object-fit:cover;"
-    >
+        <div class="col-lg-8">
+            <img src="<%= listing.image.url %>" 
+                 class="img-fluid rounded-4 shadow-lg w-100"
+                 style="height:450px; object-fit:cover;">
+        </div>
 
-    <div class="card-body bg-light">
+        <div class="col-lg-4">
 
-        <h3 class="fw-bold"><%= listing.title %></h3>
+            <div class="card shadow-lg border-0 rounded-4 p-4 sticky-top" style="top:100px;">
 
-        <p class="text-muted">
-            👤 Listed by: 
-            <%= listing.owner ? listing.owner.username : "Unknown" %>
-        </p>
+                <h3 class="fw-bold"><%= listing.title %></h3>
 
-        <p class="fst-italic"><%= listing.description %></p>
+                <p class="text-muted mb-2">
+                    📍 <%= listing.location %>, <%= listing.country %>
+                </p>
 
-        <hr>
+                <hr>
 
-        <ul class="list-group list-group-flush mb-3">
+                <h4 class="fw-bold text-success">
+                    ₹<%= listing.price.toLocaleString('en-IN') %>
+                    <span class="badge bg-warning text-dark ms-2">
+                        per night
+                    </span>
+                </h4>
 
-            <li class="list-group-item bg-transparent">
-                <strong>Price:</strong>
-                <span class="text-success fw-bold">
-                    ₹<%= listing.price %>
-                </span>
-                <span class="badge bg-warning text-dark">per night</span>
-            </li>
+                <p class="small text-muted">
+                    👥 Max Guests: <%= listing.maxGuests %><br>
+                    🛏 Rooms Available: <%= listing.roomsAvailable %>
+                </p>
 
-            <li class="list-group-item bg-transparent">
-                <strong>Location:</strong>
-                <%= listing.location %>, <%= listing.country %>
-            </li>
+                <hr>
 
-            <li class="list-group-item bg-transparent">
-                <strong>Max Guests:</strong>
-                <%= listing.maxGuests %>
-            </li>
+                <% if (currentUser) { %>
+                <form action="/listings/<%= listing._id %>/bookings"
+                      method="POST"
+                      class="row g-2">
 
-            <li class="list-group-item bg-transparent">
-                <strong>Rooms Available:</strong>
-                <%= listing.roomsAvailable %>
-            </li>
+                    <div class="col-6">
+                        <input type="date" name="checkIn"
+                               class="form-control" required>
+                    </div>
+
+                    <div class="col-6">
+                        <input type="date" name="checkOut"
+                               class="form-control" required>
+                    </div>
+
+                    <div class="col-6">
+                        <input type="number"
+                               name="guests"
+                               min="1"
+                               max="<%= listing.maxGuests %>"
+                               class="form-control"
+                               placeholder="Guests"
+                               required>
+                    </div>
+
+                    <div class="col-6">
+                        <select name="guide"
+                                class="form-control"
+                                required>
+                            <option value="">Guide?</option>
+                            <option value="yes">Yes</option>
+                            <option value="no">No</option>
+                        </select>
+                    </div>
+
+                    <div class="col-12">
+                        <button class="btn btn-success w-100 rounded-pill">
+                            Reserve Now
+                        </button>
+                    </div>
+
+                </form>
+                <% } else { %>
+                <div class="alert alert-warning text-center">
+                    Please <a href="/login">login</a> to book
+                </div>
+                <% } %>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= DETAILS SECTION ================= -->
+    <div class="row mb-5">
+
+        <div class="col-lg-8">
+
+            <h4 class="fw-bold mb-3">About this property</h4>
+            <p class="text-muted"><%= listing.description %></p>
+
+            <p class="text-muted">
+                👤 Listed by: 
+                <strong>
+                    <%= listing.owner ? listing.owner.username : "Unknown" %>
+                </strong>
+            </p>
 
             <% if (listing.amenities && listing.amenities.length > 0) { %>
-            <li class="list-group-item bg-transparent">
-                <strong>Amenities:</strong>
-                <ul class="mt-2">
-                    <% listing.amenities.forEach(a => { %>
-                        <li><%= a %></li>
-                    <% }) %>
-                </ul>
-            </li>
+            <h5 class="fw-bold mt-4">Amenities</h5>
+            <div class="row">
+                <% listing.amenities.forEach(a => { %>
+                    <div class="col-md-6">
+                        ✔ <%= a %>
+                    </div>
+                <% }) %>
+            </div>
             <% } %>
 
-        </ul>
+        </div>
 
-        <!-- OWNER CONTROLS -->
-        <% if (
-            currentUser &&
-            listing.owner &&
-            currentUser._id.equals(listing.owner._id)
-        ) { %>
+    </div>
 
-        <div class="d-flex gap-2">
-            <a href="/listings/<%= listing._id %>/edit"
-               class="btn btn-outline-primary flex-fill">
-               ✏ Edit
-            </a>
+    <!-- ================= REVIEWS SECTION ================= -->
+    <hr class="my-5">
+
+    <h4 class="fw-bold mb-4">⭐ Guest Reviews</h4>
+
+    <% 
+        let avgRating = 0;
+        if (listing.reviews.length > 0) {
+            avgRating = listing.reviews.reduce((sum, r) => sum + r.rating, 0) / listing.reviews.length;
+        }
+    %>
+
+    <% if (listing.reviews.length > 0) { %>
+
+        <div class="mb-4">
+            <h5>
+                Average Rating: 
+                <span class="text-warning fw-bold">
+                    <%= avgRating.toFixed(1) %> ★
+                </span>
+                (<%= listing.reviews.length %> reviews)
+            </h5>
+        </div>
+
+        <% listing.reviews.forEach(review => { %>
+        <div class="card border-0 shadow-sm rounded-4 mb-3 p-3">
+
+            <div class="d-flex justify-content-between">
+
+                <div>
+                    <% for (let i = 1; i <= 5; i++) { %>
+                        <% if (i <= review.rating) { %>
+                            <span class="text-warning">★</span>
+                        <% } else { %>
+                            <span class="text-secondary">☆</span>
+                        <% } %>
+                    <% } %>
+                </div>
+
+                <small class="text-muted">
+                    — <%= review.author ? review.author.username : "Anonymous" %>
+                </small>
+
+            </div>
+
+            <p class="mt-2 mb-0"><%= review.comment %></p>
+
+            <% if (currentUser &&
+                   review.author &&
+                   currentUser._id.equals(review.author._id)) { %>
 
             <form method="POST"
-                  action="/listings/<%= listing._id %>?_method=DELETE"
-                  class="flex-fill"
-                  onsubmit="return confirm('Are you sure?');">
+                  action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
+                  class="mt-2"
+                  onsubmit="return confirm('Delete review?');">
 
-                <button class="btn btn-outline-danger w-100">
-                    🗑 Delete
+                <button class="btn btn-sm btn-outline-danger rounded-pill">
+                    Delete
                 </button>
             </form>
+
+            <% } %>
+
+        </div>
+        <% }) %>
+
+    <% } else { %>
+
+        <div class="alert alert-info">
+            No reviews yet. Be the first!
+        </div>
+
+    <% } %>
+
+
+    <!-- ================= REVIEW FORM ================= -->
+    <div class="card border-0 shadow-lg rounded-4 mt-5 p-4">
+        <h5 class="fw-bold mb-3">Leave a Review</h5>
+
+        <% if (currentUser) { %>
+
+        <form action="/listings/<%= listing._id %>/reviews"
+              method="POST">
+
+            <div class="mb-3">
+                <input type="number"
+                       min="1"
+                       max="5"
+                       name="review[rating]"
+                       class="form-control"
+                       placeholder="Rating (1-5)"
+                       required>
+            </div>
+
+            <div class="mb-3">
+                <textarea name="review[comment]"
+                          class="form-control"
+                          rows="3"
+                          placeholder="Write your experience..."
+                          required></textarea>
+            </div>
+
+            <button class="btn btn-dark rounded-pill w-100">
+                Submit Review
+            </button>
+
+        </form>
+
+        <% } else { %>
+
+        <div class="alert alert-warning">
+            Please <a href="/login">login</a> to leave a review.
         </div>
 
         <% } %>
-
-    </div>
-</div>
-
-<!-- ================= BOOKING SECTION ================= -->
-<hr>
-<h4 class="mb-3 text-success">📅 Book This Hotel</h4>
-
-<% if (currentUser) { %>
-
-<form action="/listings/<%= listing._id %>/bookings"
-      method="POST"
-      class="row g-3 mb-4">
-
-    <div class="col-md-4">
-        <label>Check In</label>
-        <input type="date"
-               name="checkIn"
-               class="form-control"
-               required>
     </div>
 
-    <div class="col-md-4">
-        <label>Check Out</label>
-        <input type="date"
-               name="checkOut"
-               class="form-control"
-               required>
+
+    <!-- ================= OWNER CONTROLS ================= -->
+    <% if (currentUser &&
+           listing.owner &&
+           currentUser._id.equals(listing.owner._id)) { %>
+
+    <div class="text-center mt-5">
+        <a href="/listings/<%= listing._id %>/edit"
+           class="btn btn-outline-primary rounded-pill px-4 me-2">
+           ✏ Edit
+        </a>
+
+        <form method="POST"
+              action="/listings/<%= listing._id %>?_method=DELETE"
+              class="d-inline"
+              onsubmit="return confirm('Delete listing?');">
+
+            <button class="btn btn-outline-danger rounded-pill px-4">
+                🗑 Delete
+            </button>
+        </form>
     </div>
 
-    <div class="col-md-4">
-        <label>Guests</label>
-        <input type="number"
-               name="guests"
-               class="form-control"
-               min="1"
-               max="<%= listing.maxGuests %>"
-               required>
-    </div>
-    <div class="col-md-4">
-        <label>Guide</label>
-        <select name="guide"
-                class="form-control"
-                required>
-            <option value="">Select an option</option>
-            <option value="yes">Yes</option>
-            <option value="no">No</option>
-        </select>
+    <% } %>
+
+
+    <!-- ================= BACK BUTTON ================= -->
+    <div class="text-center mt-5">
+        <a href="/listings"
+           class="btn btn-secondary rounded-pill px-4">
+           ← Back to Listings
+        </a>
     </div>
 
-    <div class="col-12">
-        <button class="btn btn-success w-100">
-            Confirm Booking
-        </button>
-    </div>
-
-</form>
-
-<% } else { %>
-
-<div class="alert alert-warning mb-4">
-    Please <a href="/login">login</a> to book this hotel.
-</div>
-
-<% } %>
-
-<!-- ================= REVIEW FORM ================= -->
-<div class="card shadow border-0 mb-4">
-<div class="card-body">
-
-<h4 class="fw-semibold text-primary mb-3">
-    ⭐ Leave a Review
-</h4>
-
-<% if (currentUser) { %>
-
-<form action="/listings/<%= listing._id %>/reviews"
-      method="POST"
-      class="needs-validation"
-      novalidate>
-
-    <div class="mb-3">
-        <label>Rating (1–5)</label>
-        <input type="number"
-               min="1"
-               max="5"
-               name="review[rating]"
-               class="form-control"
-               required>
-    </div>
-
-    <div class="mb-3">
-        <label>Comment</label>
-        <textarea name="review[comment]"
-                  class="form-control"
-                  rows="3"
-                  required></textarea>
-    </div>
-
-    <button class="btn btn-dark w-100">
-        Submit Review
-    </button>
-
-</form>
-
-<% } else { %>
-
-<div class="alert alert-warning">
-    Please <a href="/login">login</a> to leave a review.
-</div>
-
-<% } %>
-
-</div>
-</div>
-
-<!-- ================= ALL REVIEWS ================= -->
-<h4 class="fw-bold mb-3">📝 All Reviews</h4>
-
-<% if (listing.reviews && listing.reviews.length > 0) { %>
-
-    <% listing.reviews.forEach((review) => { %>
-    <div class="card shadow-sm mb-3">
-        <div class="card-body">
-
-            <p>
-                <strong>Rating:</strong>
-                <% for (let i = 1; i <= 5; i++) { %>
-                    <% if (i <= review.rating) { %>
-                        <span class="text-warning">★</span>
-                    <% } else { %>
-                        <span class="text-secondary">☆</span>
-                    <% } %>
-                <% } %>
-            </p>
-
-            <p><%= review.comment %></p>
-
-            <% if (review.author) { %>
-                <small class="text-muted">
-                    — <%= review.author.username %>
-                </small>
-            <% } %>
-
-            <% if (
-                currentUser &&
-                review.author &&
-                currentUser._id.equals(review.author._id)
-            ) { %>
-
-                <form method="POST"
-                      action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
-                      class="mt-2"
-                      onsubmit="return confirm('Delete review?');">
-
-                    <button class="btn btn-sm btn-danger">
-                        Delete Review
-                    </button>
-                </form>
-
-            <% } %>
-
-        </div>
-    </div>
-    <% }) %>
-
-<% } else { %>
-
-<div class="alert alert-info">
-    No reviews yet. Be the first!
-</div>
-
-<% } %>
-
-<!-- ================= BACK BUTTON ================= -->
-<div class="text-center mt-4">
-    <a href="/listings"
-       class="btn btn-secondary">
-       ← Back to Listings
-    </a>
-</div>
-
-</div>
-</div>
 </div>
