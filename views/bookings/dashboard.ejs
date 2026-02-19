@@ -1,70 +1,186 @@
 <% layout('layouts/boilerplate') %>
 
-<div class="container mt-5">
-<h2 class="mb-4 text-primary">📅 My Bookings</h2>
+<div class="container-fluid py-5 booking-dashboard">
 
-<% if (bookings.length > 0) { %>
+    <div class="container">
 
-    <% bookings.forEach(booking => { %>
-    <div class="card shadow-sm mb-3">
-        <div class="card-body">
+        <h2 class="text-center fw-bold mb-5 display-6 text-dark">
+            ✨ My Travel Dashboard
+        </h2>
 
-            <h5><%= booking.listing.title %></h5>
+        <% 
+        const totalBookings = bookings.length;
+        const confirmed = bookings.filter(b => b.status === "confirmed").length;
+        const cancelled = bookings.filter(b => b.status === "cancelled").length;
+        const totalSpent = bookings.reduce((sum, b) => sum + b.totalPrice, 0);
+        %>
 
-            <p>
-                📍 <%= booking.listing.location %>, <%= booking.listing.country %>
-            </p>
+        <!-- 📊 STATS SECTION -->
+        <div class="row g-4 mb-5 text-center">
 
-            <p>
-                🗓 <strong>Check In:</strong> 
-                <%= booking.checkIn.toDateString() %>
-            </p>
+            <div class="col-md-3">
+                <div class="stat-card shadow-sm">
+                    <h4><%= totalBookings %></h4>
+                    <p>Total Bookings</p>
+                </div>
+            </div>
 
-            <p>
-                🗓 <strong>Check Out:</strong> 
-                <%= booking.checkOut.toDateString() %>
-            </p>
+            <div class="col-md-3">
+                <div class="stat-card shadow-sm">
+                    <h4><%= confirmed %></h4>
+                    <p>Confirmed</p>
+                </div>
+            </div>
 
-            <p>
-                👥 Guests: <%= booking.guests %>
-            </p>
+            <div class="col-md-3">
+                <div class="stat-card shadow-sm">
+                    <h4><%= cancelled %></h4>
+                    <p>Cancelled</p>
+                </div>
+            </div>
 
-            <p class="fw-bold text-success">
-                ₹<%= booking.totalPrice %>
-            </p>
-
-            <p>
-                Status: 
-                <span class="<%= booking.status === 'confirmed' ? 'text-success' : 'text-danger' %>">
-                    <%= booking.status %>
-                </span>
-            </p>
-
-            <p>
-                🗝️ <strong>Guide:</strong> 
-                 <%= booking.guide ? 'Yes' : 'No' %>
-            </p>
-
-            <% if (booking.status === "confirmed") { %>
-            <form method="POST"
-                  action="/bookings/<%= booking._id %>?_method=DELETE"
-                  onsubmit="return confirm('Cancel this booking?');">
-                <button class="btn btn-danger btn-sm">
-                    Cancel Booking
-                </button>
-            </form>
-            <% } %>
+            <div class="col-md-3">
+                <div class="stat-card shadow-sm">
+                    <h4>₹<%= totalSpent.toLocaleString('en-IN') %></h4>
+                    <p>Total Spent</p>
+                </div>
+            </div>
 
         </div>
+
+
+        <% if (bookings.length > 0) { %>
+
+        <!-- 🗓 BOOKING LIST -->
+        <div class="row g-4">
+
+        <% bookings.forEach(booking => { 
+            const today = new Date();
+            const checkIn = new Date(booking.checkIn);
+            const checkOut = new Date(booking.checkOut);
+            const duration = Math.ceil((checkOut - checkIn) / (1000*60*60*24));
+            const daysLeft = Math.ceil((checkIn - today) / (1000*60*60*24));
+        %>
+
+            <div class="col-lg-6">
+                <div class="booking-card-glass p-4 position-relative">
+
+                    <!-- Status Indicator -->
+                    <div class="status-dot 
+                        <%= booking.status === 'confirmed' 
+                            ? 'bg-success' 
+                            : 'bg-danger' %>">
+                    </div>
+
+                    <div class="d-flex gap-4 align-items-center">
+
+                        <img src="<%= booking.listing.image?.url || '/images/default.jpg' %>" 
+                             width="120" height="100"
+                             class="rounded-3 object-fit-cover">
+
+                        <div class="flex-grow-1">
+
+                            <h5 class="fw-bold mb-1">
+                                <%= booking.listing.title %>
+                            </h5>
+
+                            <p class="text-muted small mb-2">
+                                📍 <%= booking.listing.location %>, 
+                                <%= booking.listing.country %>
+                            </p>
+
+                            <div class="small">
+                                🗓 <strong><%= checkIn.toDateString() %></strong> → 
+                                <strong><%= checkOut.toDateString() %></strong>
+                                (<%= duration %> nights)
+                            </div>
+
+                            <div class="small">
+                                👥 <%= booking.guests %> Guests | 
+                                🗝️ Guide: <%= booking.guide ? "Yes" : "No" %>
+                            </div>
+
+                            <% if (daysLeft > 0 && booking.status === "confirmed") { %>
+                                <div class="text-warning small mt-1">
+                                    ⏳ <%= daysLeft %> days left
+                                </div>
+                            <% } %>
+
+                        </div>
+
+                        <div class="text-end">
+                            <h5 class="fw-bold text-success">
+                                ₹<%= booking.totalPrice.toLocaleString('en-IN') %>
+                            </h5>
+
+                            <% if (booking.status === "confirmed") { %>
+                            <form method="POST"
+                                  action="/bookings/<%= booking._id %>?_method=DELETE"
+                                  onsubmit="return confirm('Cancel this booking?');">
+                                <button class="btn btn-sm btn-outline-danger rounded-pill mt-2">
+                                    Cancel
+                                </button>
+                            </form>
+                            <% } %>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+        <% }) %>
+        </div>
+
+        <% } else { %>
+
+        <div class="text-center py-5">
+            <h4 class="text-muted mb-3">No bookings yet</h4>
+            <a href="/listings" class="btn btn-dark rounded-pill px-4">
+                Start Exploring
+            </a>
+        </div>
+
+        <% } %>
+
     </div>
-    <% }) %>
-
-<% } else { %>
-
-<div class="alert alert-info">
-    You have no bookings yet.
 </div>
 
-<% } %>
 
-</div>
+<style>
+.booking-dashboard {
+    background: linear-gradient(135deg, #f8f9fa, #eef1f5);
+}
+
+.stat-card {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    transition: 0.3s;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+
+.booking-card-glass {
+    background: rgba(255,255,255,0.7);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    transition: 0.3s;
+}
+
+.booking-card-glass:hover {
+    transform: scale(1.02);
+}
+
+.status-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+}
+</style>
