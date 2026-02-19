@@ -1,22 +1,42 @@
 <% layout('layouts/boilerplate') %>
 <body>
-    <br>
-    <div class="row row-cols-lg-3 row-cols-md-3 row-cols-sm-1">
-        <% for(let listing of allListings){ %>
-            <div class="card">
-                <a href="/listings/<%= listing._id %>" class="listing-link">
-                    <img src="<%= listing.image.url %>" class="card-img-top" alt="<%= listing.title %> image" style="height: 20rem;"/>
-                    <div class="card-img-overlay"></div>
-                    <div class="card-body">
-                        <p class="card-text">
-                            <b><%= listing.title %></b> <br>
-                            <span>&#8377;</span> <%= listing.price %>/night
-                        </p>
-                    </div>
-                </a>
+
+<div class="categories">
+  <span class="category">🔥 Trending</span>
+  <span class="category">🏠 Villas</span>
+  <span class="category">🛏 Rooms</span>
+  <span class="category">💰 Budget Stays</span>
+  <span class="category">✨ Luxury</span>
+  <span class="category">🏖 Beach</span>
+  <span class="category">🏔 Mountains</span>
+</div>
+<br>
+
+<div class="container mt-4">
+  <div class="row g-4 justify-content-center">
+    <% for(let listing of allListings){ %>
+
+      <div class="col-lg-4 col-md-6 col-sm-12">
+        <div class="listing-card">
+          <a href="/listings/<%= listing._id %>" class="listing-link">
+
+            <img src="<%= listing.image.url %>" 
+                 alt="<%= listing.title %>">
+
+            <div class="card-info">
+              <h5><%= listing.title %></h5>
+              <p>₹ <%= listing.price %>/night</p>
+              <p class="location">
+                📍 <%= listing.location %>, <%= listing.country %>
+              </p>
             </div>
-        <% } %>
-    </div>
+          </a>
+        </div>
+      </div>
+    <% } %>
+  </div>
+</div>
 </body>
 </html>
+
 
