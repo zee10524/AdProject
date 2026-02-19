@@ -12,6 +12,20 @@ body{
     flex:1;
 }
 
+.categories {
+  display:flex;
+  justify-content:center;
+  gap:30px;
+  padding:15px;
+  border-bottom:1px solid #eee;
+}
+
+.categories div{
+  font-size:14px;
+  cursor:pointer;
+  white-space:nowrap;
+}
+
 .navbar{
     height: 5rem;
     background-color: white;
@@ -137,4 +151,76 @@ edit page */
 
     height: 30vh;
     
+}
+
+/* changes */
+/* LISTING CARD */
+.listing-card {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  transition: 0.3s;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+.listing-card img {
+  width: 100%;
+  height: 230px;
+  object-fit: cover;
+  border-radius: 16px;
+}
+
+.listing-card:hover {
+  transform: translateY(-5px);
+}
+
+.card-info {
+  padding: 12px;
+}
+
+.card-info h5 {
+  margin: 5px 0;
+  font-weight: 600;
+}
+
+.card-info p {
+  margin: 0;
+  color: #555;
+}
+
+.location {
+  font-size: 14px;
+  color: #777;
+}
+
+.listing-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+
+/* Trending Section */
+.category {
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+  font-size: 15px;
+}
+
+.category:hover {
+  background-color: #f2f2f2;
+  transform: translateY(-2px);
+}
+
+.category:active {
+  background-color: #e6e6e6;
+}
+
+.categories {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  padding: 15px;
+  border-bottom: 1px solid #eee;
 }
