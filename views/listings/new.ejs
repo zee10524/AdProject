@@ -3,63 +3,138 @@
 <div class="row">
     <div class="col-8 offset-2">
         <br>
-        <h3>Create a New Listing</h3>
-        
-        <form method="Post" action="/listings" novalidate class="needs-validation" enctype="multipart/form-data">
+        <h3>Create a New Hotel Listing</h3>
 
+        <form method="POST"
+              action="/listings"
+              novalidate
+              class="needs-validation"
+              enctype="multipart/form-data">
+
+            <!-- TITLE -->
             <div class="mb-3">
-                <label for="title" class="form-lable">Title</label>
-                <input name="listing[title]" placeholder="Enter title" type="text" class="form-control" required>
+                <label for="title" class="form-label">Title</label>
+                <input name="listing[title]"
+                       placeholder="Enter title"
+                       type="text"
+                       class="form-control"
+                       required>
+                <div class="invalid-feedback">Please enter a valid title</div>
+            </div>
 
-                <div class="valid-feedback">Title looks good </div>
-                <div class="invalid-feedback">Please enter in valid format</div>
-
-            </div>    
-
+            <!-- DESCRIPTION -->
             <div class="mb-3">
-                <lable for="description" class="form-label">Description</lable>
-                <textarea name="listing[description]" placeholder="Enter description" class="form-control" required></textarea>
-                <div class="valid-feedback">Description looks good</div>
+                <label for="description" class="form-label">Description</label>
+                <textarea name="listing[description]"
+                          placeholder="Enter description"
+                          class="form-control"
+                          required></textarea>
                 <div class="invalid-feedback">Please enter a valid description</div>
             </div>
 
+            <!-- IMAGE -->
             <div class="mb-3">
-                <label for="image" class="form-label">Upload Image </label>
-                <input name="listing[image]"type="file" class="form-control" required />
-                <div class="valid-feedback">Image file looks good</div>
-                <div class="invalid-feedback">Please Upload image in valid format</div>
-          </div>
-            
+                <label for="image" class="form-label">Upload Image</label>
+                <input name="listing[image]"
+                       type="file"
+                       class="form-control"
+                       required>
+                <div class="invalid-feedback">Please upload an image</div>
+            </div>
+
+            <!-- PRICE + COUNTRY -->
             <div class="row">
                 <div class="mb-3 col-md-4">
-                    <label for="price" class="form-label">Price</label>
-                    <input name="listing[price]" placeholder="enter price" type="number" class="form-control" required/>
-                    <div class="valid-feedback">Price looks good</div>
-                    <div class="invalid-feedback">Please enter a valid price</div>
+                    <label for="price" class="form-label">Price per Night</label>
+                    <input name="listing[price]"
+                           placeholder="Enter price"
+                           type="number"
+                           class="form-control"
+                           min="1"
+                           required>
+                    <div class="invalid-feedback">Enter valid price</div>
                 </div>
 
                 <div class="mb-3 col-md-8">
-                    <lable for="country" class="form-label">Country</lable>
-                    <input name="listing[country]" placeholder="Enter country" type="text" class="form-control" required/>
-                    <div class="valid-feedback">Country looks good</div>
-                    <div class="invalid-feedback">Please enter a valid country</div>
+                    <label for="country" class="form-label">Country</label>
+                    <input name="listing[country]"
+                           placeholder="Enter country"
+                           type="text"
+                           class="form-control"
+                           required>
+                    <div class="invalid-feedback">Enter valid country</div>
                 </div>
             </div>
-           
 
+            <!-- LOCATION -->
             <div class="mb-3">
-                <lable for="location" class="form-label">Location</lable>
-                <input name="listing[location]" placeholder="Enter location" type="text" class="form-control" required/>      
-                <div class="valid-feedback">Location looks good</div>
-                <div class="invalid-feedback">Please enter a valid location</div>
+                <label for="location" class="form-label">Location (City)</label>
+                <input name="listing[location]"
+                       placeholder="Enter city"
+                       type="text"
+                       class="form-control"
+                       required>
+                <div class="invalid-feedback">Enter valid location</div>
             </div>
-            
-            <button class="btn btn-dark add-btn">Add</button>
-            <br>
-            <br>
+
+            <!-- NEW HOTEL FIELDS -->
+
+            <!-- MAX GUESTS -->
+            <div class="mb-3">
+                <label for="maxGuests" class="form-label">Max Guests</label>
+                <input name="listing[maxGuests]"
+                       type="number"
+                       class="form-control"
+                       min="1"
+                       required>
+                <div class="invalid-feedback">Enter valid guest capacity</div>
+            </div>
+
+            <!-- ROOMS AVAILABLE -->
+            <div class="mb-3">
+                <label for="roomsAvailable" class="form-label">Rooms Available</label>
+                <input name="listing[roomsAvailable]"
+                       type="number"
+                       class="form-control"
+                       min="1"
+                       required>
+                <div class="invalid-feedback">Enter number of rooms</div>
+            </div>
+
+            <!-- AMENITIES -->
+            <div class="mb-3">
+                <label for="amenities" class="form-label">
+                    Amenities (comma separated)
+                </label>
+                <input name="listing[amenities]"
+                       type="text"
+                       class="form-control"
+                       placeholder="WiFi, AC, Parking, Pool">
+                <small class="text-muted">
+                    Separate each amenity with a comma.
+                </small>
+            </div>
+
+            <!--NEW GUIDE OPTION -->
+            <div class="form-check mb-3">
+                <input 
+                    class="form-check-input" 
+                    type="checkbox" 
+                    name="listing[guide]" 
+                    id="guideCheck"
+                    value="true"
+                >
+                <label class="form-check-label" for="guideCheck">
+                    Guide Service
+                </label>
+            </div>
+            <button class="btn btn-dark add-btn w-100">
+                Add Hotel
+            </button>
+
+            <br><br>
         </form>
     </div>
 </div>
 
 </body>
-
