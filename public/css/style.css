@@ -41,6 +41,36 @@ body{
 
 }
 
+/* Navbar spacing & alignment improvement */
+
+.navbar-nav {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.navbar-nav .nav-link {
+  padding: 6px 14px;
+  border-radius: 20px;
+  transition: 0.2s ease;
+  cursor: pointer;
+}
+
+.navbar-nav .nav-link:hover {
+  background-color: rgba(0,0,0,0.05);
+}
+
+/* Search bar spacing */
+.navbar form {
+  margin: 0 30px;
+}
+
+/* Right side buttons spacing */
+.navbar .btn {
+  margin-left: 10px;
+}
+
+
 /* footer */
 
 .f-info-links a{
