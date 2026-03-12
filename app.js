@@ -18,12 +18,14 @@ const LocalStrategy = require("passport-local");
 // ================= MODELS =================
 const User = require("./models/user");
 
+
 // ================= ROUTES =================
 const listingRouter = require("./routes/listing");
 const reviewRouter = require("./routes/review");
 const userRouter = require("./routes/user");
 const bookingRouter = require("./routes/booking");
 const userBookingRouter = require("./routes/userBookings");
+const chatbotRouter = require("./routes/chatbot");
 // ================= DATABASE =================
 const MONGO_URL = process.env.MONGO_URI;
 const PORT = 8080;
@@ -34,15 +36,12 @@ mongoose.connect(MONGO_URL)
 
 // ================= VIEW ENGINE =================
 app.set("view engine", "ejs");
-app.set("views", [
-    path.join(__dirname, "views"),
-    path.join(__dirname, "layouts")   // 👈 add this
-]);
-
+app.set("views", path.join(__dirname, "views"));
 app.engine("ejs", ejsMate);
 
 // ================= BASIC MIDDLEWARE =================
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -65,6 +64,7 @@ app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 
+
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
@@ -78,9 +78,7 @@ app.use((req, res, next) => {
 });
 
 // ================= HOME ROUTE =================
-app.get("/", (req, res) => {
-    res.redirect("/listings");
-});
+app.get("/", (req, res) => res.redirect("/listings"));
 
 // ================= ROUTES =================
 app.use("/listings", listingRouter);
@@ -88,6 +86,7 @@ app.use("/bookings", userBookingRouter);
 app.use("/listings/:id/bookings", bookingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
 app.use("/", userRouter);
+app.use("/api/chatbot", chatbotRouter);
 
 // ================= 404 HANDLER =================
 app.use((req, res, next) => {
