@@ -48,3 +48,8 @@ module.exports.validateReview = (req, res, next) => {
 
     next();
 };
+
+module.exports.setCurrentUser = (req, res, next) => {
+  res.locals.currentUser = req.user; 
+  next();
+};
