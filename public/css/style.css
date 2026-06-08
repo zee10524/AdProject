@@ -1,0 +1,227 @@
+/* ============================================================
+   MUSAFIRKHANA — Listings Page Styles
+   Paste ALL of this at the bottom of public/css/style.css
+   (replaces any previous mk- rules you added)
+   ============================================================ */
+
+/* ── Hero ── */
+.mk-hero {
+  width: 100%;
+  height: 300px;
+  /* Rich luxury bedroom — matching the reference */
+  background-image: url('https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&w=1800&q=85');
+  background-size: cover;
+  background-position: center 40%;
+  position: relative;
+}
+
+.mk-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(10,20,10,0.45) 0%, rgba(10,20,10,0.65) 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.mk-hero-title {
+  color: #fff;
+  font-size: 2.8rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  margin: 0 0 0.5rem;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.4);
+}
+
+.mk-hero-breadcrumb {
+  color: rgba(255,255,255,0.82);
+  font-size: 0.95rem;
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+/* ── Section ── */
+.mk-listings-section {
+  background: #faf8f4;
+  padding: 2.8rem 4vw 4rem;
+}
+
+/* ── Ornament ── */
+.mk-section-header {
+  text-align: center;
+  margin-bottom: 2.4rem;
+}
+
+.mk-ornament {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.7rem;
+}
+
+.mk-orn-svg {
+  width: 260px;
+  height: 28px;
+}
+
+.mk-section-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0;
+  font-family: "Plus Jakarta Sans", sans-serif;
+}
+
+/* ── Grid ── */
+.mk-listings-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem 1.6rem;
+}
+
+@media (max-width: 992px) {
+  .mk-listings-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+  .mk-listings-grid { grid-template-columns: 1fr; }
+  .mk-hero { height: 210px; }
+  .mk-hero-title { font-size: 1.9rem; }
+}
+
+/* ── Card ── */
+.mk-card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.mk-card {
+  background: #fff;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 2px 14px rgba(0,0,0,0.07);
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+
+.mk-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.13);
+}
+
+.mk-card-img-wrap {
+  position: relative;
+  overflow: hidden;
+}
+
+.mk-card-img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.35s ease;
+}
+
+.mk-card:hover .mk-card-img {
+  transform: scale(1.04);
+}
+
+/* Badge — only first 3 cards get it (controlled in EJS) */
+.mk-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: rgba(18, 42, 28, 0.88);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 4px 11px;
+  border-radius: 20px;
+  letter-spacing: 0.3px;
+  z-index: 1;
+}
+
+/* ── Card Body ── */
+.mk-card-body {
+  padding: 0.9rem 1rem 1rem;
+}
+
+.mk-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.2rem;
+}
+
+.mk-card-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.mk-card-rating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.mk-card-rating .fa-star {
+  color: #e8a840;
+  font-size: 0.75rem;
+}
+
+.mk-dove {
+  color: #2d5a3d;
+  font-size: 0.85rem;
+}
+
+.mk-card-price {
+  color: #2d5a3d;
+  font-weight: 700;
+  font-size: 0.98rem;
+  margin: 0.2rem 0 0.65rem;
+}
+
+.mk-card-price span {
+  font-weight: 400;
+  color: #555;
+  font-size: 0.85rem;
+}
+
+/* ── Meta row ── */
+.mk-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.9rem;
+  border-top: 1px solid #efefef;
+  padding-top: 0.55rem;
+}
+
+.mk-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.75rem;
+  color: #666;
+}
+
+.mk-meta-item i {
+  color: #2d5a3d;
+  font-size: 0.72rem;
+}
+
+/* ── Full-width break out of Bootstrap container ── */
+.mk-hero,
+.mk-listings-section {
+  margin-left: calc(-50vw + 50%);
+  width: 100vw;
+}

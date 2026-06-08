@@ -1,0 +1,144 @@
+<% layout('layouts/boilerplate') %>
+
+<div class="container mt-5">
+<div class="row justify-content-center">
+<div class="col-lg-8 col-md-10">
+
+<h3 class="mb-4 fw-bold text-primary">✏ Edit Hotel Listing</h3>
+
+<form method="POST"
+      action="/listings/<%= listing._id %>?_method=PUT"
+      novalidate
+      class="needs-validation"
+      enctype="multipart/form-data">
+
+    <!-- TITLE -->
+    <div class="mb-3">
+        <label class="form-label">Title</label>
+        <input name="listing[title]"
+               type="text"
+               class="form-control"
+               value="<%= listing.title %>"
+               required>
+        <div class="invalid-feedback">Please provide a title.</div>
+    </div>
+
+    <!-- DESCRIPTION -->
+    <div class="mb-3">
+        <label class="form-label">Description</label>
+        <textarea name="listing[description]"
+                  class="form-control"
+                  required><%= listing.description %></textarea>
+        <div class="invalid-feedback">Please provide description.</div>
+    </div>
+
+    <!-- CURRENT IMAGE -->
+    <% if (originalImageUrl) { %>
+    <div class="mb-3">
+        <label class="form-label">Current Image</label>
+        <div>
+            <img src="<%= originalImageUrl %>"
+                 style="height:150px; border-radius:8px;">
+        </div>
+    </div>
+    <% } %>
+
+    <!-- NEW IMAGE -->
+    <div class="mb-3">
+        <label class="form-label">Upload New Image</label>
+        <input name="listing[image]"
+               type="file"
+               class="form-control">
+    </div>
+
+    <!-- PRICE + COUNTRY -->
+    <div class="row">
+        <div class="mb-3 col-md-4">
+            <label class="form-label">Price per Night</label>
+            <input name="listing[price]"
+                   type="number"
+                   class="form-control"
+                   value="<%= listing.price %>"
+                   min="1"
+                   required>
+        </div>
+
+        <div class="mb-3 col-md-8">
+            <label class="form-label">Country</label>
+            <input name="listing[country]"
+                   type="text"
+                   class="form-control"
+                   value="<%= listing.country %>"
+                   required>
+        </div>
+    </div>
+
+    <!-- LOCATION -->
+    <div class="mb-3">
+        <label class="form-label">Location</label>
+        <input name="listing[location]"
+               type="text"
+               class="form-control"
+               value="<%= listing.location %>"
+               required>
+    </div>
+
+    <!-- 🔥 NEW HOTEL FIELDS -->
+
+    <!-- MAX GUESTS -->
+    <div class="mb-3">
+        <label class="form-label">Max Guests</label>
+        <input name="listing[maxGuests]"
+               type="number"
+               class="form-control"
+               value="<%= listing.maxGuests %>"
+               min="1"
+               required>
+    </div>
+
+    <!-- ROOMS AVAILABLE -->
+    <div class="mb-3">
+        <label class="form-label">Rooms Available</label>
+        <input name="listing[roomsAvailable]"
+               type="number"
+               class="form-control"
+               value="<%= listing.roomsAvailable %>"
+               min="1"
+               required>
+    </div>
+
+    <!-- AMENITIES -->
+    <div class="mb-3">
+        <label class="form-label">
+            Amenities (comma separated)
+        </label>
+        <input name="listing[amenities]"
+               type="text"
+               class="form-control"
+               value="<%= listing.amenities ? listing.amenities.join(', ') : '' %>"
+               placeholder="WiFi, AC, Parking">
+    </div>
+
+    <!-- ✅ GUIDE CHECKBOX -->
+            <div class="form-check mb-3">
+                <input 
+                    class="form-check-input" 
+                    type="checkbox" 
+                    name="listing[guide]" 
+                    id="guideCheck"
+                    value="true"
+                    <%= listing.guide ? "checked" : "" %>
+                >
+                <label class="form-check-label" for="guideCheck">
+                    GUide Service
+                </label>
+            </div>
+    <button class="btn btn-dark w-100 mt-3">
+        Update Listing
+    </button>
+
+</form>
+
+</div>
+</div>
+</div>

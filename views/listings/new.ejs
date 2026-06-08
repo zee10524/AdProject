@@ -1,0 +1,529 @@
+<% layout('layouts/boilerplate') %>
+
+<section class="mk-new-section">
+
+  <div class="mk-new-heading">
+    <h2 class="mk-new-page-title">Create a Hotel Listing</h2>
+    <p class="mk-new-page-sub">Fill in the details to list your luxury stay on Musafirkhana.</p>
+  </div>
+
+  <div class="mk-new-card">
+
+    <!-- Form -->
+    <form method="POST"
+          action="/listings"
+          novalidate
+          class="mk-new-form needs-validation"
+          enctype="multipart/form-data">
+
+      <!-- Section: Basic Info -->
+      <p class="mk-field-section-label">Basic Information</p>
+
+      <div class="mk-field-group">
+        <label class="mk-label">Title <span class="mk-req">*</span></label>
+        <input name="listing[title]"
+               type="text"
+               class="mk-input"
+               placeholder="e.g. Cozy Beachfront Cottage"
+               required />
+        <div class="mk-invalid">Please enter a valid title.</div>
+      </div>
+
+      <div class="mk-field-group">
+        <label class="mk-label">Description <span class="mk-req">*</span></label>
+        <textarea name="listing[description]"
+                  class="mk-input mk-textarea"
+                  rows="4"
+                  placeholder="Describe what makes this stay special…"
+                  required></textarea>
+        <div class="mk-invalid">Please enter a description.</div>
+      </div>
+
+      <div class="mk-field-group">
+        <label class="mk-label">Upload Image <span class="mk-req">*</span></label>
+        <label class="mk-file-label" id="fileLabel">
+          <i class="fa-solid fa-cloud-arrow-up"></i>
+          <span id="fileText">Click to upload a photo</span>
+          <input name="listing[image]"
+                 type="file"
+                 class="mk-file-input"
+                 accept="image/*"
+                 required
+                 id="fileInput" />
+        </label>
+        <div class="mk-invalid">Please upload an image.</div>
+      </div>
+
+      <div class="mk-new-divider"></div>
+
+      <!-- Section: Location & Price -->
+      <p class="mk-field-section-label">Location &amp; Pricing</p>
+
+      <div class="mk-two-col">
+        <div class="mk-field-group">
+          <label class="mk-label">Price per Night (₹) <span class="mk-req">*</span></label>
+          <div class="mk-input-icon-wrap">
+            <i class="fa-solid fa-indian-rupee-sign mk-input-icon"></i>
+            <input name="listing[price]"
+                   type="number"
+                   class="mk-input mk-input-with-icon"
+                   placeholder="1200"
+                   min="1"
+                   required />
+          </div>
+          <div class="mk-invalid">Enter a valid price.</div>
+        </div>
+
+        <div class="mk-field-group">
+          <label class="mk-label">Country <span class="mk-req">*</span></label>
+          <input name="listing[country]"
+                 type="text"
+                 class="mk-input"
+                 placeholder="e.g. India"
+                 required />
+          <div class="mk-invalid">Enter a valid country.</div>
+        </div>
+      </div>
+
+      <div class="mk-field-group">
+        <label class="mk-label">City / Location <span class="mk-req">*</span></label>
+        <div class="mk-input-icon-wrap">
+          <i class="fa-solid fa-location-dot mk-input-icon"></i>
+          <input name="listing[location]"
+                 type="text"
+                 class="mk-input mk-input-with-icon"
+                 placeholder="e.g. Goa"
+                 required />
+        </div>
+        <div class="mk-invalid">Enter a valid location.</div>
+      </div>
+
+      <div class="mk-new-divider"></div>
+
+      <!-- Section: Capacity -->
+      <p class="mk-field-section-label">Capacity &amp; Amenities</p>
+
+      <div class="mk-two-col">
+        <div class="mk-field-group">
+          <label class="mk-label">Max Guests <span class="mk-req">*</span></label>
+          <div class="mk-input-icon-wrap">
+            <i class="fa-solid fa-users mk-input-icon"></i>
+            <input name="listing[maxGuests]"
+                   type="number"
+                   class="mk-input mk-input-with-icon"
+                   placeholder="4"
+                   min="1"
+                   required />
+          </div>
+          <div class="mk-invalid">Enter guest capacity.</div>
+        </div>
+
+        <div class="mk-field-group">
+          <label class="mk-label">Rooms Available <span class="mk-req">*</span></label>
+          <div class="mk-input-icon-wrap">
+            <i class="fa-solid fa-door-open mk-input-icon"></i>
+            <input name="listing[roomsAvailable]"
+                   type="number"
+                   class="mk-input mk-input-with-icon"
+                   placeholder="2"
+                   min="1"
+                   required />
+          </div>
+          <div class="mk-invalid">Enter number of rooms.</div>
+        </div>
+      </div>
+
+      <div class="mk-field-group">
+        <label class="mk-label">Amenities</label>
+        <div class="mk-input-icon-wrap">
+          <i class="fa-solid fa-star mk-input-icon"></i>
+          <input name="listing[amenities]"
+                 type="text"
+                 class="mk-input mk-input-with-icon"
+                 placeholder="WiFi, AC, Parking, Pool" />
+        </div>
+        <small class="mk-hint">Separate each amenity with a comma.</small>
+      </div>
+
+      <div class="mk-new-divider"></div>
+
+      <!-- Guide toggle -->
+      <div class="mk-guide-toggle">
+        <div class="mk-guide-info">
+          <p class="mk-guide-title"><i class="fa-solid fa-map"></i> Guide Service</p>
+          <p class="mk-guide-sub">Does this listing include a guided tour option?</p>
+        </div>
+        <label class="mk-switch">
+          <input type="checkbox" name="listing[guide]" id="guideCheck" value="true">
+          <span class="mk-switch-slider"></span>
+        </label>
+      </div>
+
+      <div class="mk-new-divider"></div>
+
+      <!-- Submit -->
+      <button type="submit" class="mk-add-btn">
+        <i class="fa-solid fa-plus"></i> Add Hotel Listing
+      </button>
+
+    </form>
+  </div>
+
+  <!-- Back -->
+  <div class="mk-new-back-row">
+    <a href="/listings" class="mk-back-btn">
+      <i class="fa-solid fa-arrow-left"></i> Back to Listings
+    </a>
+  </div>
+
+</section>
+
+<style>
+/* ── Hero ── */
+.mk-new-hero {
+  background-image: url('https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1800&q=85') !important;
+  background-position: center 50% !important;
+  height: 240px !important;
+}
+
+/* ── Section ── */
+.mk-new-section {
+  background: #faf8f4;
+  padding: 3rem 4vw 4rem;
+  margin-left: calc(-50vw + 50%);
+  width: 100vw;
+}
+
+/* ── Form Card ── */
+.mk-new-card {
+  background: linear-gradient(160deg, #ffffff 0%, #f7f3ec 100%);
+  border-radius: 20px;
+  border: 1px solid rgba(184,149,90,0.18);
+  box-shadow: 0 4px 30px rgba(0,0,0,0.07), 0 1px 4px rgba(184,149,90,0.1);
+  max-width: 720px;
+  margin: 0 auto 1.5rem;
+  overflow: hidden;
+}
+
+/* ── Standalone heading ── */
+.mk-new-heading {
+  max-width: 720px;
+  margin: 0 auto 1.5rem;
+}
+
+.mk-new-page-title {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #1a1a1a;
+  margin: 0 0 0.3rem;
+}
+
+.mk-new-page-sub {
+  font-size: 0.88rem;
+  color: #999;
+  margin: 0;
+}
+
+/* Card header */
+.mk-new-card-header { display: none; }
+
+.mk-new-form-title { display: none; }
+.mk-new-form-sub   { display: none; }
+
+/* Form body */
+.mk-new-form {
+  padding: 2rem 2.5rem 2.5rem;
+}
+
+@media (max-width: 600px) {
+  .mk-new-form { padding: 1.5rem 1.2rem 2rem; }
+  .mk-new-card-header { padding: 1.5rem 1.2rem; }
+}
+
+/* Section labels */
+.mk-field-section-label {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #b8955a;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0 0 1rem;
+}
+
+/* Field group */
+.mk-field-group {
+  margin-bottom: 1.1rem;
+}
+
+.mk-label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #444;
+  margin-bottom: 5px;
+  letter-spacing: 0.2px;
+}
+
+.mk-req { color: #b8955a; }
+
+.mk-input {
+  width: 100%;
+  height: 44px;
+  padding: 0 13px;
+  border: 1.5px solid #e0dbd0;
+  border-radius: 10px;
+  font-size: 0.88rem;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  background: #fff;
+  color: #1a1a1a;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+}
+
+.mk-input:focus {
+  border-color: #b8955a;
+  box-shadow: 0 0 0 3px rgba(184,149,90,0.12);
+}
+
+.mk-input.mk-textarea {
+  height: auto;
+  padding: 10px 13px;
+  resize: vertical;
+}
+
+/* Icon inside input */
+.mk-input-icon-wrap {
+  position: relative;
+}
+
+.mk-input-icon {
+  position: absolute;
+  left: 13px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #b8955a;
+  font-size: 0.78rem;
+  pointer-events: none;
+}
+
+.mk-input-with-icon {
+  padding-left: 2.2rem;
+}
+
+/* File upload */
+.mk-file-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 2px dashed rgba(184,149,90,0.45);
+  border-radius: 12px;
+  padding: 1.5rem;
+  cursor: pointer;
+  background: rgba(184,149,90,0.04);
+  transition: border-color 0.2s, background 0.2s;
+  text-align: center;
+}
+
+.mk-file-label:hover {
+  border-color: #b8955a;
+  background: rgba(184,149,90,0.08);
+}
+
+.mk-file-label i {
+  font-size: 1.6rem;
+  color: #b8955a;
+}
+
+.mk-file-label span {
+  font-size: 0.85rem;
+  color: #888;
+}
+
+.mk-file-input {
+  display: none;
+}
+
+/* Two col */
+.mk-two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+@media (max-width: 560px) {
+  .mk-two-col { grid-template-columns: 1fr; }
+}
+
+/* Hint text */
+.mk-hint {
+  font-size: 0.73rem;
+  color: #aaa;
+  margin-top: 4px;
+  display: block;
+}
+
+/* Validation */
+.mk-invalid {
+  font-size: 0.75rem;
+  color: #b93232;
+  margin-top: 4px;
+  display: none;
+}
+
+.mk-new-form.was-validated .mk-input:invalid ~ .mk-invalid,
+.mk-new-form.was-validated .mk-input-icon-wrap .mk-input:invalid ~ .mk-invalid {
+  display: block;
+}
+
+/* Divider */
+.mk-new-divider {
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(184,149,90,0.25), transparent);
+  margin: 1.4rem 0;
+}
+
+/* Guide toggle */
+.mk-guide-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  background: rgba(45,90,61,0.05);
+  border: 1px solid rgba(45,90,61,0.12);
+  border-radius: 12px;
+  padding: 0.9rem 1.1rem;
+}
+
+.mk-guide-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 2px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.mk-guide-title i { color: #2d5a3d; }
+
+.mk-guide-sub {
+  font-size: 0.75rem;
+  color: #888;
+  margin: 0;
+}
+
+/* Toggle switch */
+.mk-switch {
+  position: relative;
+  width: 46px;
+  height: 26px;
+  flex-shrink: 0;
+}
+
+.mk-switch input { display: none; }
+
+.mk-switch-slider {
+  position: absolute;
+  inset: 0;
+  background: #ddd;
+  border-radius: 26px;
+  cursor: pointer;
+  transition: background 0.25s;
+}
+
+.mk-switch-slider::before {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: #fff;
+  border-radius: 50%;
+  top: 3px;
+  left: 3px;
+  transition: transform 0.25s;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+}
+
+.mk-switch input:checked + .mk-switch-slider {
+  background: #2d5a3d;
+}
+
+.mk-switch input:checked + .mk-switch-slider::before {
+  transform: translateX(20px);
+}
+
+/* Submit button */
+.mk-add-btn {
+  width: 100%;
+  height: 52px;
+  background: linear-gradient(135deg, #2d5a3d, #1a4a2e);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 700;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 16px rgba(45,90,61,0.28);
+  transition: transform 0.2s, box-shadow 0.2s;
+  letter-spacing: 0.3px;
+}
+
+.mk-add-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(45,90,61,0.38);
+}
+
+/* Back link */
+.mk-new-back-row {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.mk-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #2d5a3d;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  padding: 8px 18px;
+  border: 1.5px solid rgba(45,90,61,0.3);
+  border-radius: 20px;
+  transition: all 0.2s;
+}
+
+.mk-back-btn:hover {
+  background: #2d5a3d;
+  color: #fff;
+  border-color: #2d5a3d;
+}
+</style>
+
+<script>
+// Show filename on file select
+document.getElementById('fileInput')?.addEventListener('change', function () {
+  const name = this.files[0]?.name;
+  document.getElementById('fileText').textContent = name || 'Click to upload a photo';
+});
+
+// Bootstrap-style validation
+(function () {
+  const form = document.querySelector('.mk-new-form');
+  form?.addEventListener('submit', function (e) {
+    if (!form.checkValidity()) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    form.classList.add('was-validated');
+  });
+})();
+</script>

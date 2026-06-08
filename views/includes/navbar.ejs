@@ -1,0 +1,114 @@
+<nav class="navbar navbar-expand-md navbar-light bg-white py-3 border-bottom shadow-sm sticky-top">
+  <div class="container-fluid px-4">
+
+    <!-- Brand -->
+    <a class="navbar-brand d-flex align-items-center" href="/listings">
+      <img src="/MusaphirKhana.png" alt="Musafirkhana Logo" style="height: 3rem;" class="me-2">
+      <span class="fw-bolder fs-4 text-dark">Musafirkhana</span>
+    </a>
+
+    <!-- Mobile toggler -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+
+      <!-- LEFT: All nav links together -->
+      <div class="navbar-nav me-auto ms-3 d-flex align-items-center gap-1">
+        <a class="nav-link rounded-pill px-3" href="/listings">All Listings</a>
+        <a class="nav-link rounded-pill px-3" href="/listings/new">Add Listing</a>
+        <a class="nav-link rounded-pill px-3" href="/bookings/my-bookings">My Bookings</a>
+      </div>
+
+      <!-- RIGHT: Search + Auth -->
+      <div class="d-flex align-items-center gap-2 ms-auto">
+        <form class="d-flex align-items-center mk-search-form" role="search" action="/listings" method="GET">
+          <div class="mk-search-wrap">
+            <i class="fa-solid fa-magnifying-glass mk-search-icon"></i>
+            <input
+              class="mk-search-input"
+              type="search"
+              name="q"
+              placeholder="Search destinations..."
+            >
+          </div>
+        </form>
+        <a href="/listings" class="mk-book-btn">Book Now</a>
+
+        <% if (!currentUser) { %>
+          <a class="nav-link fw-bold ms-2" href="/signup">Sign Up</a>
+          <a class="btn btn-primary rounded-pill px-4" href="/login">Log In</a>
+        <% } else { %>
+          <a class="btn btn-outline-danger rounded-pill px-4" href="/logout">Log Out</a>
+        <% } %>
+      </div>
+
+    </div>
+  </div>
+</nav>
+
+<style>
+/* ── Search bar with icon inside ── */
+.mk-search-form {
+  gap: 6px;
+}
+
+.mk-search-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.mk-search-icon {
+  position: absolute;
+  left: 13px;
+  color: #aaa;
+  font-size: 0.82rem;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.mk-search-input {
+  height: 42px;
+  padding: 0 1rem 0 2.2rem;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 30px;
+  font-size: 0.87rem;
+  min-width: 210px;
+  outline: none;
+  background: #fafafa;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  transition: border-color 0.2s;
+}
+
+.mk-search-input:focus {
+  border-color: #c9963c;
+  background: #fff;
+}
+
+/* Wider standalone Book Now button */
+.mk-book-btn {
+  height: 42px;
+  padding: 0 1.8rem;
+  background: #c9963c;
+  color: #fff !important;
+  border: none;
+  border-radius: 30px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+  white-space: nowrap;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+}
+
+.mk-book-btn:hover {
+  background: #b07d28;
+  box-shadow: 0 4px 14px rgba(184,149,90,0.35);
+}
+</style>
